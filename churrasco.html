@@ -1,0 +1,321 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Churrasco dos Seminaristas</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+<style>
+:root{box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px);
+--bg:#eef4fb;--card:#fff;--ink:#12233a;--mute:#5d708a;--line:#d5e1f0;--accent:#1f5fae;--accent2:#5aa0e6;--ok:#1d7a4d;--warn:#b26a00;--bad:#b3261e}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#0e1724;--card:#16233a;--ink:#e8f0fb;--mute:#9fb2cc;--line:#26385a;--accent:#5aa0e6;--accent2:#8cc2ff;--ok:#5cc08a;--warn:#e3a94b;--bad:#f0746b}}
+:root[data-theme="dark"]{--bg:#0e1724;--card:#16233a;--ink:#e8f0fb;--mute:#9fb2cc;--line:#26385a;--accent:#5aa0e6;--accent2:#8cc2ff;--ok:#5cc08a;--warn:#e3a94b;--bad:#f0746b}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:Georgia,"Times New Roman",serif;line-height:1.4}
+.wrap{max-width:1020px;margin:0 auto;padding:16px}
+header{text-align:center;padding:20px 12px;border-radius:16px;background:linear-gradient(135deg,var(--accent),var(--accent2));color:#fff}
+header .cross{font-size:26px}
+h1{margin:4px 0;font-size:clamp(24px,5vw,36px)}
+header p{margin:2px 0}
+.cd{display:inline-block;margin-top:8px;padding:4px 14px;border-radius:99px;background:rgba(255,255,255,.22);font-family:system-ui,sans-serif;font-weight:600}
+.sans,button,input,select,label,textarea{font-family:system-ui,-apple-system,Segoe UI,Roboto,sans-serif}
+.grid{display:grid;gap:12px;grid-template-columns:repeat(auto-fit,minmax(145px,1fr));margin:14px 0}
+.stat{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:14px}
+.stat small{color:var(--mute);font-family:system-ui,sans-serif;font-size:12px;text-transform:uppercase;letter-spacing:.05em}
+.stat b{display:block;font-size:23px;margin-top:4px}
+.ok{color:var(--ok)}.warn{color:var(--warn)}.bad{color:var(--bad)}
+.card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:16px;margin:14px 0}
+h2{margin:0 0 10px;font-size:19px;color:var(--accent)}
+.bar{height:10px;background:var(--line);border-radius:6px;overflow:hidden}
+.bar i{display:block;height:100%;background:linear-gradient(90deg,var(--accent),var(--accent2));width:0;transition:width .4s}
+form{display:grid;gap:10px;grid-template-columns:repeat(auto-fit,minmax(140px,1fr))}
+label{font-size:12px;color:var(--mute);display:flex;flex-direction:column;gap:4px}
+input,select,textarea{padding:10px;border:1px solid var(--line);border-radius:10px;background:var(--bg);color:var(--ink);font-size:15px;width:100%}
+textarea{font-size:13px;resize:vertical}
+button{cursor:pointer;border:0;border-radius:10px;padding:10px 14px;font-size:14px;font-weight:600;background:var(--accent);color:#fff}
+:root:not([data-theme="light"]) button:not(.ghost){color:#08121f}
+button.ghost{background:transparent;color:var(--ink);border:1px solid var(--line)}
+button.sm{padding:5px 9px;font-size:12px}
+form button,form .full{grid-column:1/-1}
+.tools{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:10px}
+.tools input,.tools select{flex:1;min-width:130px}
+.scroll{overflow-x:auto}
+table{width:100%;border-collapse:collapse;font-family:system-ui,sans-serif;font-size:14px;min-width:760px}
+th,td{text-align:left;padding:8px 6px;border-bottom:1px solid var(--line);vertical-align:middle}
+th{font-size:11px;text-transform:uppercase;color:var(--mute);letter-spacing:.05em}
+.tag{padding:2px 9px;border-radius:99px;font-size:12px;font-weight:600;border:1px solid currentColor;white-space:nowrap}
+.rk{padding:8px 0;border-bottom:1px dashed var(--line);font-family:system-ui,sans-serif;font-size:14px}
+.rk .bar{height:6px;margin-top:5px}
+.note{font-size:13px;color:var(--mute);font-family:system-ui,sans-serif}
+.empty{padding:16px;text-align:center;color:var(--mute)}
+.qrbox{display:flex;gap:18px;flex-wrap:wrap;align-items:center}
+#qr{background:#fff;padding:10px;border-radius:10px;line-height:0;min-width:40px;min-height:40px}
+.pixinfo{flex:1;min-width:220px;display:grid;gap:8px}
+.three{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+a.wa{color:var(--ok);font-weight:600;font-size:12px;text-decoration:none;border:1px solid var(--ok);border-radius:8px;padding:4px 8px}
+#prog{white-space:pre-line}
+.hide{display:none!important}
+</style>
+</head>
+<body>
+<div class="wrap">
+<header>
+  <div class="cross">✝</div>
+  <h1>Churrasco dos Seminaristas</h1>
+  <p id="hInfo">Data e local a definir</p>
+  <span class="cd" id="hCd" style="display:none"></span>
+</header>
+<div id="notice" class="note" style="text-align:center;margin-top:8px"></div>
+
+<div class="card hide" id="progCard"><h2>Programação e cardápio</h2><div id="prog"></div></div>
+
+<div class="grid">
+  <div class="stat"><small>Ingressos</small><b id="sQtd">0</b></div>
+  <div class="stat"><small>Total vendido</small><b id="sTot">R$ 0</b></div>
+  <div class="stat"><small>Recebido</small><b class="ok" id="sRec">R$ 0</b></div>
+  <div class="stat"><small>A receber</small><b class="warn" id="sPen">R$ 0</b></div>
+  <div class="stat"><small>Despesas</small><b class="bad" id="sDes">R$ 0</b></div>
+  <div class="stat"><small>Lucro (recebido − despesas)</small><b id="sLuc">R$ 0</b></div>
+  <div class="stat"><small>Entregues</small><b id="sEnt">0</b></div>
+  <div class="stat"><small>Já entraram</small><b id="sEnu">0</b></div>
+</div>
+
+<div class="card">
+  <h2>Meta de vendas</h2>
+  <div class="bar"><i id="barMeta"></i></div>
+  <p class="note" id="metaTxt"></p>
+</div>
+
+<div class="card edit">
+  <h2>Configurações do evento</h2>
+  <form id="cfg">
+    <label>Preço adulto (R$)<input type="number" step="0.01" min="0" id="cA"></label>
+    <label>Preço criança (R$)<input type="number" step="0.01" min="0" id="cC"></label>
+    <label>Preço meia (R$)<input type="number" step="0.01" min="0" id="cM"></label>
+    <label>Meta geral (ingressos)<input type="number" min="1" id="cMeta"></label>
+    <label>Meta por seminarista<input type="number" min="1" id="cInd"></label>
+    <label>Data<input type="date" id="cData"></label>
+    <label>Horário<input type="time" id="cHora"></label>
+    <label>Local<input id="cLocal" placeholder="Onde será"></label>
+    <label class="full">Programação e cardápio (uma linha por item)<textarea id="cProg" rows="4" placeholder="11h Santa Missa&#10;12h30 Almoço&#10;Cardápio: carne, linguiça, farofa..."></textarea></label>
+    <button class="ghost" type="submit">Salvar configurações</button>
+  </form>
+</div>
+
+<div class="card">
+  <h2>Pagar com Pix</h2>
+  <p class="note">Recebedor: Enzo Alvino. Informe a quantidade, pague pelo app do banco e avise o seminarista.</p>
+  <div class="qrbox">
+    <div id="qr"></div>
+    <div class="pixinfo">
+      <div class="three">
+        <label>Adulto<input id="pA" type="number" min="0" value="1"></label>
+        <label>Criança<input id="pC" type="number" min="0" value="0"></label>
+        <label>Meia<input id="pM" type="number" min="0" value="0"></label>
+      </div>
+      <div>Valor a pagar: <b id="pVal">R$ 0</b></div>
+      <label>Pix copia e cola<textarea id="pCode" rows="3" readonly></textarea></label>
+      <button type="button" id="pCopy">Copiar código Pix</button>
+      <span class="note" id="pMsg"></span>
+    </div>
+  </div>
+</div>
+
+<div class="card edit">
+  <h2>Registrar venda</h2>
+  <form id="f">
+    <label>Comprador<input id="fNome" required placeholder="Nome"></label>
+    <label>WhatsApp (opcional)<input id="fTel" placeholder="(18) 99999-9999"></label>
+    <label>Vendedor (seminarista)<input id="fVend" required list="vendList"></label>
+    <datalist id="vendList"></datalist>
+    <label>Tipo<select id="fTipo"><option value="a">Adulto</option><option value="c">Criança</option><option value="m">Meia</option></select></label>
+    <label>Quantidade<input id="fQtd" type="number" min="1" value="1" required></label>
+    <label>Pagamento<select id="fForma"><option>Pix</option><option>Dinheiro</option><option>Cartão</option></select></label>
+    <label>Situação<select id="fPago"><option value="1">Pago</option><option value="0">Pendente</option></select></label>
+    <button type="submit">Adicionar venda</button>
+  </form>
+</div>
+
+<div class="card">
+  <h2>Despesas</h2>
+  <form id="fx" class="edit" style="margin-bottom:10px">
+    <label>Descrição<input id="xDesc" required placeholder="Carne, carvão, bebida..."></label>
+    <label>Valor (R$)<input id="xVal" type="number" step="0.01" min="0" required></label>
+    <button type="submit">Adicionar despesa</button>
+  </form>
+  <div id="xList"></div>
+</div>
+
+<div class="card">
+  <h2>Vendas por seminarista</h2>
+  <div id="rank"></div>
+</div>
+
+<div class="card">
+  <h2>Vendas, entrega e entrada</h2>
+  <div class="tools">
+    <input id="q" placeholder="Buscar comprador ou vendedor">
+    <select id="fs"><option value="">Todas</option><option value="1">Pagas</option><option value="0">Pendentes</option><option value="n">Ainda não entraram</option></select>
+    <button class="ghost edit" id="exp">Baixar CSV</button>
+  </div>
+  <div id="csvBox" class="hide" style="margin-bottom:10px">
+    <p class="note" id="csvMsg"></p>
+    <textarea id="csvTa" rows="5" readonly></textarea>
+    <button class="sm ghost" type="button" id="csvCopy">Copiar texto</button>
+  </div>
+  <div class="scroll"><table>
+    <thead><tr><th>Comprador</th><th>Vendedor</th><th>Ingresso</th><th>Valor</th><th>Pgto</th><th>Pago</th><th>Entregue</th><th>Entrou</th><th></th></tr></thead>
+    <tbody id="rows"></tbody>
+  </table></div>
+  <div id="empty" class="empty">Nenhuma venda registrada ainda.</div>
+</div>
+<p class="note" style="text-align:center">“Tudo o que fizerem, façam de coração.” — Cl 3,23</p>
+</div>
+
+<script>
+var sales=[],exps=[],db=null,edit=true;
+var cfg={p:{a:30,c:15,m:15},meta:100,ind:15,data:'',hora:'',local:'',prog:''};
+var T={a:'Adulto',c:'Criança',m:'Meia'};
+var $=function(i){return document.getElementById(i)};
+var brl=function(n){return (n||0).toLocaleString('pt-BR',{style:'currency',currency:'BRL'})};
+var uid=function(){return Date.now().toString(36)+Math.random().toString(36).slice(2,6)};
+function esc(s){var d=document.createElement('div');d.textContent=s==null?'':s;return d.innerHTML}
+function val(s){return s.qtd*(cfg.p[s.tipo||'a']||0)}
+function ini(n){return String(n).split(' ').map(function(w){return w[0]||''}).join('').toUpperCase()+'.'}
+
+/* Pix */
+var PIX={chave:'56658978840',nome:'ENZO ALVINO',cidade:'PRES BERNARDES',desc:'Churrasco'};
+function tlv(id,v){return id+('0'+v.length).slice(-2)+v}
+function crc16(s){var c=0xFFFF;for(var i=0;i<s.length;i++){c^=s.charCodeAt(i)<<8;for(var j=0;j<8;j++)c=(c&0x8000)?((c<<1)^0x1021):(c<<1);c&=0xFFFF}return ('000'+c.toString(16).toUpperCase()).slice(-4)}
+function pixPayload(v){
+  var conta=tlv('00','br.gov.bcb.pix')+tlv('01',PIX.chave)+tlv('02',PIX.desc);
+  var p=tlv('00','01')+tlv('01','11')+tlv('26',conta)+tlv('52','0000')+tlv('53','986')+(v>0?tlv('54',v.toFixed(2)):'')+tlv('58','BR')+tlv('59',PIX.nome)+tlv('60',PIX.cidade)+tlv('62',tlv('05','***'))+'6304';
+  return p+crc16(p)}
+var lastPix='';
+function updatePix(){
+  var n=function(i){return Math.max(0,parseInt($(i).value)||0)};
+  var v=n('pA')*cfg.p.a+n('pC')*cfg.p.c+n('pM')*cfg.p.m,p=pixPayload(v);
+  $('pVal').textContent=brl(v);
+  if(p===lastPix)return;lastPix=p;$('pCode').value=p;
+  var el=$('qr');el.innerHTML='';
+  try{new QRCode(el,{text:p,width:200,height:200,correctLevel:QRCode.CorrectLevel.M})}catch(e){el.style.lineHeight='1.4';el.textContent='QR Code indisponível. Use o copia e cola.'}
+}
+function copyFrom(id,msg,ok){
+  var ta=$(id);ta.focus();ta.select();var r=false;
+  try{r=document.execCommand('copy')}catch(e){}
+  if(!r&&navigator.clipboard){navigator.clipboard.writeText(ta.value).then(function(){$(msg).textContent=ok},function(){$(msg).textContent='Selecione o texto e copie manualmente.'});return}
+  $(msg).textContent=r?ok:'Selecione o texto e copie manualmente.';
+}
+
+/* Render */
+function render(){
+  var tot=0,rec=0,qtd=0,ent=0,enu=0,by={};
+  sales.forEach(function(s){var v=val(s);tot+=v;qtd+=s.qtd;if(s.pago)rec+=v;if(s.entregue)ent+=s.qtd;if(s.entrou)enu+=s.qtd;
+    var b=by[s.vend]=by[s.vend]||{q:0,v:0,r:0};b.q+=s.qtd;b.v+=v;if(s.pago)b.r+=v});
+  var des=exps.reduce(function(a,x){return a+x.valor},0),luc=rec-des;
+  $('sQtd').textContent=qtd;$('sTot').textContent=brl(tot);$('sRec').textContent=brl(rec);$('sPen').textContent=brl(tot-rec);
+  $('sDes').textContent=brl(des);$('sLuc').textContent=brl(luc);$('sLuc').className=luc>=0?'ok':'bad';
+  $('sEnt').textContent=ent+' de '+qtd;$('sEnu').textContent=enu+' de '+qtd;
+  var pct=Math.min(100,Math.round(qtd/cfg.meta*100));
+  $('barMeta').style.width=pct+'%';
+  $('metaTxt').textContent=qtd+' de '+cfg.meta+' ingressos ('+pct+'%) · faltam '+Math.max(0,cfg.meta-qtd);
+  /* header */
+  var info=[];
+  if(cfg.data){info.push(new Date(cfg.data+'T12:00:00').toLocaleDateString('pt-BR',{weekday:'long',day:'numeric',month:'long'}))}
+  if(cfg.hora)info.push('às '+cfg.hora);if(cfg.local)info.push('· '+cfg.local);
+  $('hInfo').textContent=info.length?info.join(' '):'Data e local a definir';
+  if(cfg.data){var d=Math.round((new Date(cfg.data+'T00:00:00')-new Date().setHours(0,0,0,0))/864e5);
+    $('hCd').style.display='inline-block';$('hCd').textContent=d>1?'Faltam '+d+' dias':d===1?'É amanhã!':d===0?'É hoje!':'Evento realizado'}
+  else $('hCd').style.display='none';
+  $('progCard').classList.toggle('hide',!cfg.prog);$('prog').textContent=cfg.prog||'';
+  /* ranking */
+  var names=Object.keys(by).sort(function(a,b){return by[b].q-by[a].q});
+  $('vendList').innerHTML=names.map(function(n){return '<option value="'+esc(n)+'">'}).join('');
+  $('rank').innerHTML=names.length?names.map(function(n,i){var b=by[n],p=Math.min(100,Math.round(b.q/cfg.ind*100));
+    return '<div class="rk"><div style="display:flex;justify-content:space-between;gap:8px;flex-wrap:wrap"><span>'+(i==0?'🏆 ':(i+1)+'. ')+esc(n)+'</span><span>'+b.q+'/'+cfg.ind+' ingr. · '+brl(b.v)+' · <span class="ok">'+brl(b.r)+' pago</span></span></div><div class="bar"><i style="width:'+p+'%"></i></div></div>'}).join(''):'<div class="empty">Sem vendas ainda.</div>';
+  /* despesas */
+  $('xList').innerHTML=exps.length?exps.slice().sort(function(a,b){return b.ts-a.ts}).map(function(x){
+    return '<div class="rk" style="display:flex;justify-content:space-between;align-items:center;gap:8px"><span>'+esc(x.desc)+'</span><span>'+brl(x.valor)+(edit?' <button class="sm ghost" data-x="'+x.id+'">✕</button>':'')+'</span></div>'}).join(''):'<div class="empty">Nenhuma despesa registrada.</div>';
+  /* lista */
+  var q=$('q').value.toLowerCase(),fs=$('fs').value;
+  var list=sales.filter(function(s){
+    var ok=!q||(s.nome+' '+s.vend).toLowerCase().indexOf(q)>-1;
+    if(fs==='1')ok=ok&&s.pago;else if(fs==='0')ok=ok&&!s.pago;else if(fs==='n')ok=ok&&!s.entrou;
+    return ok}).sort(function(a,b){return b.ts-a.ts});
+  $('empty').style.display=list.length?'none':'block';
+  function chip(on,txt,act,id){return '<button class="sm '+(on?'':'ghost')+'" '+(edit?'data-'+act+'="'+id+'"':'disabled')+'>'+txt+'</button>'}
+  $('rows').innerHTML=list.map(function(s){
+    var nm=edit?esc(s.nome):ini(s.nome);
+    var wa='';
+    if(edit&&!s.pago&&s.tel){var dg=String(s.tel).replace(/\D/g,'');if(dg.length<=11)dg='55'+dg;
+      var msg='Olá, '+s.nome+'! Passando para lembrar do pagamento do churrasco dos seminaristas ('+s.qtd+' ingresso(s), '+brl(val(s))+'). Pix copia e cola: '+pixPayload(val(s));
+      wa='<a class="wa" target="_blank" rel="noopener" href="https://wa.me/'+dg+'?text='+encodeURIComponent(msg)+'">Cobrar</a> '}
+    return '<tr><td>'+nm+'</td><td>'+esc(s.vend)+'</td><td>'+s.qtd+' × '+T[s.tipo||'a']+'</td><td>'+brl(val(s))+'</td><td>'+esc(s.forma)+'</td>'
+    +'<td>'+chip(s.pago,s.pago?'Pago':'Pendente','t',s.id)+'</td><td>'+chip(s.entregue,s.entregue?'Sim':'Não','e',s.id)+'</td><td>'+chip(s.entrou,s.entrou?'Entrou':'Não','i',s.id)+'</td>'
+    +'<td style="white-space:nowrap">'+wa+(edit?'<button class="sm ghost" data-d="'+s.id+'">✕</button>':'')+'</td></tr>'}).join('');
+  document.querySelectorAll('.edit').forEach(function(e){e.classList.toggle('hide',!edit)});
+  updatePix();
+}
+
+/* Persistência */
+function fail(){$('notice').textContent='Não foi possível salvar. Você pode não ter permissão de edição.'}
+function put(col,o){
+  if(db){db.collection(col).doc(o.id).set(o).catch(fail);return}
+  var a=col==='sales'?sales:exps,i=a.findIndex(function(x){return x.id===o.id});if(i<0)a.push(o);else a[i]=o;render()}
+function del(col,id){
+  if(db){db.collection(col).doc(id).delete().catch(fail);return}
+  if(col==='sales')sales=sales.filter(function(x){return x.id!==id});else exps=exps.filter(function(x){return x.id!==id});render()}
+
+$('f').onsubmit=function(e){e.preventDefault();
+  put('sales',{id:uid(),ts:Date.now(),nome:$('fNome').value.trim(),tel:$('fTel').value.trim(),vend:$('fVend').value.trim(),tipo:$('fTipo').value,
+    qtd:Math.max(1,parseInt($('fQtd').value)||1),forma:$('fForma').value,pago:$('fPago').value==='1',entregue:false,entrou:false});
+  var v=$('fVend').value;$('f').reset();$('fVend').value=v;$('fQtd').value=1;$('fNome').focus()};
+$('fx').onsubmit=function(e){e.preventDefault();
+  put('expenses',{id:uid(),ts:Date.now(),desc:$('xDesc').value.trim(),valor:parseFloat($('xVal').value)||0});$('fx').reset()};
+$('cfg').onsubmit=function(e){e.preventDefault();
+  cfg={p:{a:parseFloat($('cA').value)||0,c:parseFloat($('cC').value)||0,m:parseFloat($('cM').value)||0},meta:parseInt($('cMeta').value)||1,ind:parseInt($('cInd').value)||1,
+    data:$('cData').value,hora:$('cHora').value,local:$('cLocal').value.trim(),prog:$('cProg').value.trim()};
+  if(db)db.doc('config/main').set(cfg).catch(fail);else render()};
+function fillCfg(){$('cA').value=cfg.p.a;$('cC').value=cfg.p.c;$('cM').value=cfg.p.m;$('cMeta').value=cfg.meta;$('cInd').value=cfg.ind;
+  $('cData').value=cfg.data;$('cHora').value=cfg.hora;$('cLocal').value=cfg.local;$('cProg').value=cfg.prog}
+$('rows').onclick=function(e){
+  var g=function(k){return e.target.getAttribute('data-'+k)},id,s;
+  if(id=g('t')){s=sales.find(function(x){return x.id===id});s.pago=!s.pago;put('sales',s)}
+  else if(id=g('e')){s=sales.find(function(x){return x.id===id});s.entregue=!s.entregue;put('sales',s)}
+  else if(id=g('i')){s=sales.find(function(x){return x.id===id});s.entrou=!s.entrou;put('sales',s)}
+  else if((id=g('d'))&&confirm('Excluir esta venda?'))del('sales',id)};
+$('xList').onclick=function(e){var id=e.target.getAttribute('data-x');if(id&&confirm('Excluir esta despesa?'))del('expenses',id)};
+$('q').oninput=render;$('fs').onchange=render;
+['pA','pC','pM'].forEach(function(i){$(i).oninput=updatePix});
+$('pCopy').onclick=function(){copyFrom('pCode','pMsg','Código copiado! Cole no app do seu banco.')};
+$('csvCopy').onclick=function(){copyFrom('csvTa','csvMsg','Texto copiado. Cole em uma planilha.')};
+$('exp').onclick=async function(){
+  var csv='Comprador;WhatsApp;Vendedor;Tipo;Qtd;Valor;Forma;Pago;Entregue;Entrou\n'+sales.map(function(s){
+    return [s.nome,s.tel,s.vend,T[s.tipo||'a'],s.qtd,val(s).toFixed(2).replace('.',','),s.forma,s.pago?'Sim':'Não',s.entregue?'Sim':'Não',s.entrou?'Sim':'Não']
+    .map(function(c){return '"'+String(c==null?'':c).replace(/"/g,'""')+'"'}).join(';')}).join('\n');
+  $('csvTa').value=csv;$('csvBox').classList.remove('hide');var m=$('csvMsg');
+  try{var dl=await claude.use('downloads');if(!dl)throw {code:'unavailable'};
+    await dl.save({filename:'vendas-churrasco.csv',data:'\ufeff'+csv});
+    m.textContent='Download iniciado. Se o arquivo não aparecer, copie o texto abaixo e cole em uma planilha.';
+  }catch(er){m.textContent=(er&&er.code==='declined')?'Download cancelado. Você pode copiar o texto abaixo.':'Não foi possível baixar aqui. Copie o texto abaixo e cole em uma planilha.'}};
+
+fillCfg();render();
+(async function(){
+  try{
+    if(!window.claude)return;
+    db=await claude.use('db');
+    if(!db){$('notice').textContent='Modo local: os dados não ficam salvos ao fechar a página.';return}
+    try{var u=await claude.use('user');if(u&&u.can&&u.can('data.write')===false){edit=false;$('notice').textContent='Modo consulta: você pode ver os totais, mas não editar.'}}catch(e){}
+    db.collection('sales').onSnapshot(function(s){sales=s.docs.map(function(d){return d.data()}).filter(Boolean);render()},fail);
+    db.collection('expenses').onSnapshot(function(s){exps=s.docs.map(function(d){return d.data()}).filter(Boolean);render()},fail);
+    db.doc('config/main').onSnapshot(function(d){
+      if(!d.exists)return;var c=d.data()||{},p=c.p||{};
+      cfg={p:{a:Number(p.a!=null?p.a:c.preco)||0,c:Number(p.c!=null?p.c:c.preco)||0,m:Number(p.m!=null?p.m:c.preco)||0},meta:Number(c.meta)||1,ind:Number(c.ind)||15,
+        data:c.data||'',hora:c.hora||'',local:c.local||'',prog:c.prog||''};
+      if(document.activeElement.closest&&!document.activeElement.closest('#cfg'))fillCfg();render()},fail);
+  }catch(e){db=null;$('notice').textContent='Modo local: os dados não ficam salvos ao fechar a página.'}
+})();
+</script>
+</body>
+</html>
